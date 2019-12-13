@@ -4,10 +4,9 @@ import "github.com/kataras/iris/context"
 
 func AddFriendsController(ctx context.Context) (err error) {
 
-	return nil
+	return err
 }
 
 func GetFriendsController(ctx context.Context) (err error) {
-
-	return nil
+	return err
 }

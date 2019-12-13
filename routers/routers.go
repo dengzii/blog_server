@@ -6,6 +6,7 @@ import (
 	"log"
 	"server/bootstrap"
 	"server/controllers"
+	"server/controllers/article"
 	"server/controllers/common"
 	"server/controllers/user"
 )
@@ -19,6 +20,8 @@ func Setup(app *bootstrap.Bootstrapper) {
 	app.Handle("POST", "/friends", catchErrorRouter(controllers.AddFriendsController))
 	app.Handle("POST", "/user/login", catchErrorRouter(user.LoginController))
 	app.Handle("POST", "/user/register", catchErrorRouter(user.Register))
+	app.Handle("POST", "/article/{id}", catchErrorRouter(article.GetArticle))
+
 	app.Handle("GET", "/user/login", catchErrorView("login.html", "", nil))
 
 	app.WildcardSubdomain(subdomainRouter)

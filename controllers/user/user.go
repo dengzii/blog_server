@@ -4,7 +4,7 @@ import (
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/context"
 	"server/controllers"
-	"server/models"
+	user2 "server/models/user"
 )
 
 type loginJson struct {
@@ -18,7 +18,7 @@ func LoginController(ctx context.Context) (err error) {
 	var requestUser loginJson
 
 	err = ctx.ReadJSON(&requestUser)
-	var user = models.GetUser(requestUser.Name, requestUser.Passwd)
+	var user = user2.GetUser(requestUser.Name, requestUser.Passwd)
 
 	response := controllers.CommonJson(400, "wrong password or username", nil)
 	if user.Name != "" {
@@ -33,11 +33,11 @@ func LoginController(ctx context.Context) (err error) {
 
 func Register(ctx context.Context) (err error) {
 
-	var user models.UserJson
+	var user user2.UserJson
 	err = ctx.ReadJSON(&user)
 	if err != nil {
 		return err
 	}
-	_, err = ctx.JSON(models.AddUser(user.Name, user.Passwd, user.Email))
+	_, err = ctx.JSON(user2.AddUser(user.Name, user.Passwd, user.Email))
 	return err
 }

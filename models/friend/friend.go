@@ -1,4 +1,4 @@
-package models
+package friend
 
 import "server/db"
 
@@ -16,4 +16,8 @@ func AddFriend(f Friends) *Friends {
 
 	db.Insert(f)
 	return &f
+}
+
+func GetFriend(f Friends) *Friends {
+	return nil
 }
