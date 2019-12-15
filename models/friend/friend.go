@@ -2,7 +2,7 @@ package friend
 
 import "server/db"
 
-type Friends struct {
+type Friend struct {
 	Id     int    `json:"id"`
 	Name   string `json:"name"`
 	Desc   string `json:"desc"`
@@ -12,12 +12,12 @@ type Friends struct {
 	Alt    string `json:"alt"`
 }
 
-func AddFriend(f Friends) *Friends {
+func AddFriend(f Friend) *Friend {
 
 	db.Insert(f)
 	return &f
 }
 
-func GetFriend(f Friends) *Friends {
+func GetFriend(f Friend) *Friend {
 	return nil
 }

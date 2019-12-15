@@ -3,6 +3,7 @@ package db
 import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"server/models"
 	"server/tools"
 )
 
@@ -16,6 +17,7 @@ func Init() {
 	if err != nil {
 		panic("db init failed!" + err.Error())
 	}
+	models.Init()
 }
 
 func Insert(value interface{}) {

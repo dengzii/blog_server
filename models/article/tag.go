@@ -1,9 +1,13 @@
 package article
 
-import "server/db"
+import (
+	"github.com/jinzhu/gorm"
+	"server/db"
+)
 
 type Tag struct {
-	Id           int
+	gorm.Model
+	Id           int `gorm:"AUTO_INCREMENT"`
 	Belong       Class
 	Name         string
 	ArticleCount int
