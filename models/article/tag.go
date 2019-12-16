@@ -7,7 +7,6 @@ import (
 
 type Tag struct {
 	gorm.Model
-	Id           int `gorm:"AUTO_INCREMENT"`
 	Belong       Class
 	Name         string
 	ArticleCount int

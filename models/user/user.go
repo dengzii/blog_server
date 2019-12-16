@@ -3,17 +3,15 @@ package user
 import "server/db"
 
 type User struct {
-	ID         uint
-	Name       string `json:"name"`
-	Avatar     string `json:"avatar"`
-	Email      string `json:"email"`
-	Bio        string `json:"bio"`
-	Links      string `json:"links"`
-	Likes      int32  `json:"likes"`
-	Follower   int32  `json:"follower"`
-	Following  int32  `json:"following"`
-	PassWd     string
-	CreateDate string
+	Name      string `json:"name"`
+	Avatar    string `json:"avatar"`
+	Email     string `json:"email"`
+	Bio       string `json:"bio"`
+	Links     string `json:"links"`
+	Likes     int32  `json:"likes"`
+	Follower  int32  `json:"follower"`
+	Following int32  `json:"following"`
+	PassWd    string
 }
 
 type UserJson struct {

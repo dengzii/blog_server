@@ -8,12 +8,15 @@ import (
 )
 
 func Init() {
+	tableArticle := &article.Article{}
+	tableUser := &user.User{}
+	tableTag := &article.Tag{}
+	tableClass := &article.Class{}
+	tableFriend := &friend.Friend{}
+
 	tab := []interface{}{
-		&user.User{},
-		&article.Tag{},
-		&article.Class{},
-		&article.Article{},
-		&friend.Friend{},
+		tableUser, tableTag, tableClass, tableFriend, tableArticle,
 	}
+
 	db.CreateTable(tab)
 }

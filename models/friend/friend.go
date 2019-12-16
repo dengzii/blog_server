@@ -1,9 +1,12 @@
 package friend
 
-import "server/db"
+import (
+	"github.com/jinzhu/gorm"
+	"server/db"
+)
 
 type Friend struct {
-	Id     int    `json:"id"`
+	gorm.Model
 	Name   string `json:"name"`
 	Desc   string `json:"desc"`
 	Url    string `json:"url"`

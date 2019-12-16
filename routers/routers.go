@@ -20,7 +20,9 @@ func Setup(app *bootstrap.Bootstrapper) {
 	app.Handle("POST", "/friends", catchErrorRouter(controllers.AddFriendsController))
 	app.Handle("POST", "/user/login", catchErrorRouter(user.LoginController))
 	app.Handle("POST", "/user/register", catchErrorRouter(user.Register))
+
 	app.Handle("POST", "/article/{id}", catchErrorRouter(article.GetArticle))
+	app.Handle("POST", "/article/", catchErrorRouter(article.GetArticle))
 
 	app.Handle("GET", "/user/login", catchErrorView("login.html", "", nil))
 
@@ -46,6 +48,7 @@ func catchErrorView(view string, dataKey string, dataValue interface{}) func(con
 func catchErrorRouter(router func(context.Context) error) func(context.Context) {
 	return func(ctx context.Context) {
 		err := router(ctx)
+
 		if err != nil {
 			_, _ = ctx.WriteString("error," + err.Error())
 		}
