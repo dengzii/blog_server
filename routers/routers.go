@@ -14,17 +14,24 @@ import (
 func Setup(app *bootstrap.Bootstrapper) {
 
 	app.Use(common.AuthorityController)
-	app.Handle("GET", "/", controllers.HomeController)
+	app.Handle("GET", "/", catchErrorRouter(controllers.HomeController))
+	app.Handle("GET", "/home", catchErrorRouter(controllers.HomeController))
 
 	app.Handle("GET", "/friends", catchErrorRouter(controllers.GetFriendsController))
 	app.Handle("POST", "/friends", catchErrorRouter(controllers.AddFriendsController))
 	app.Handle("POST", "/user/login", catchErrorRouter(user.LoginController))
-	app.Handle("POST", "/user/register", catchErrorRouter(user.Register))
 
-	app.Handle("POST", "/article/{id}", catchErrorRouter(article.GetArticle))
+	app.Handle("POST", "/article/{id:int}", catchErrorRouter(article.GetArticle))
 	app.Handle("POST", "/article/", catchErrorRouter(article.GetArticle))
 
+	app.Handle("PUT", "/tag/", catchErrorRouter(article.AddTagController))
+
+	app.Handle("PUT", "/article/", catchErrorRouter(article.AddArticle))
+
 	app.Handle("GET", "/user/login", catchErrorView("login.html", "", nil))
+
+	usersRouters := app.Party("/user")
+	usersRouters.Put("/", catchErrorRouter(user.Register))
 
 	app.WildcardSubdomain(subdomainRouter)
 

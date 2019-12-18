@@ -19,7 +19,7 @@ type Article struct {
 	Likes       int
 	Comments    int
 	Views       int
-	Display     bool `gorm:"default:'true'"`
+	Display     bool `gorm:"default:true"`
 }
 
 type ArticleJson struct {

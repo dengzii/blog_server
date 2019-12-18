@@ -7,19 +7,26 @@ import (
 
 type Tag struct {
 	gorm.Model
-	Belong       Class
-	Name         string
-	ArticleCount int
-	Display      bool
+	ClassId      uint
+	Name         string `json:"name"`
+	ArticleCount int    `json:"article_count"`
+	Display      bool   `json:"display"`
+	Style        int    `json:"style"`
 }
 
-func AddTag() (err error) {
+func AddTag(name string, style int) *Tag {
 
-	db.Insert(&Tag{})
-	return err
+	tag := &Tag{
+		ClassId:      0,
+		Name:         name,
+		ArticleCount: 0,
+		Display:      true,
+		Style:        style,
+	}
+	db.Insert(tag)
+	return tag
 }
 
 func GetTag() (tag *Tag, err error) {
-
 	return nil, nil
 }

@@ -9,7 +9,7 @@ import (
 func GetArticle(ctx context.Context) (err error) {
 
 	articles := article.GetArticle(10)
-	responseJson := controllers.CommonJson(200, "success", articles)
+	responseJson := controllers.ErrorResponse(200, "success", articles)
 	_, err = ctx.JSON(responseJson)
 	return err
 }

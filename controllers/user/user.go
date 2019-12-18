@@ -20,7 +20,7 @@ func LoginController(ctx context.Context) (err error) {
 	err = ctx.ReadJSON(&requestUser)
 	var user = user2.GetUser(requestUser.Name, requestUser.Passwd)
 
-	response := controllers.CommonJson(400, "wrong password or username", nil)
+	response := controllers.ErrorResponse(400, "wrong password or username", nil)
 	if user.Name != "" {
 		response.Status = 200
 		response.Msg = "success"

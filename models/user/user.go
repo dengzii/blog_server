@@ -30,8 +30,6 @@ func GetUser(name string, passwd string) *User {
 }
 
 func AddUser(name string, passwd string, email string) *User {
-	tab := []interface{}{&User{}}
-	db.CreateTable(tab)
 	user := &User{
 		Name:      name,
 		Email:     email,

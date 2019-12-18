@@ -7,4 +7,5 @@ type Class struct {
 	Name         string
 	ArticleCount int
 	Display      bool
+	ArticleID    uint
 }

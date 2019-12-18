@@ -9,10 +9,19 @@ type Json struct {
 	Data   interface{} `json:"data"`
 }
 
-func CommonJson(status int, msg string, data interface{}) *Json {
+func ErrorResponse(status int, msg string, data interface{}) *Json {
 
 	return &Json{
 		Status: status,
+		Msg:    msg,
+		Data:   data,
+	}
+}
+
+func SuccessResponse(msg string, data interface{}) *Json {
+
+	return &Json{
+		Status: 200,
 		Msg:    msg,
 		Data:   data,
 	}
