@@ -7,12 +7,24 @@ import (
 	"server/models/article"
 )
 
-func GetArticle(ctx context.Context) (err error) {
+func GetArticleLatest(ctx context.Context) (err error) {
 
-	articles := article.GetArticle(0)
+	articles := article.GetArticleLatest(10)
 	responseJson := controllers.ErrorResponse(200, "success", articles)
 	_, err = ctx.JSON(responseJson)
 	return err
+}
+
+func GetArticle(ctx context.Context) (err error) {
+
+	id, err := ctx.Params().GetInt("id")
+	if err != nil {
+		return
+	}
+	articles := article.GetArticle(id)
+	responseJson := controllers.ErrorResponse(200, "success", articles)
+	_, err = ctx.JSON(responseJson)
+	return
 }
 
 func AddArticle(ctx context.Context) (err error) {

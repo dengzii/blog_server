@@ -53,13 +53,14 @@ func AddArticle(json *ArticleJson) (article *Article) {
 
 func GetArticleLatest(count int) (article []*Article) {
 
-	db.Mysql.Find(article).Order("create_at", true).Limit(count)
+	db.Mysql.Find(&article).Order("create_at", true).Limit(count)
 	return article
 }
 
-func GetArticle(id int) (article *Article) {
-	db.Mysql.Where("id = ?", id).Find(article)
-	return article
+func GetArticle(id int) *Article {
+	var article Article
+	db.Mysql.Where("id = ?", id).Find(&article).Limit(1)
+	return &article
 }
 
 func DelArticle(id int) {
