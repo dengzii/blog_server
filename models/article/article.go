@@ -3,7 +3,6 @@ package article
 import (
 	"github.com/jinzhu/gorm"
 	"server/db"
-	"time"
 )
 
 type Article struct {
@@ -14,7 +13,7 @@ type Article struct {
 	Description string
 	Tag         Tag `gorm:"ForeignKey:TagId"`
 	TagId       int
-	Class       Class `gorm:"ForeignKey:ClassId"`
+	Class       Category `gorm:"ForeignKey:ClassId"`
 	ClassId     int
 	Likes       int
 	Comments    int
@@ -23,21 +22,24 @@ type Article struct {
 }
 
 type ArticleJson struct {
-	Title      string
-	AuthorId   int
-	Content    string
-	TagId      int
-	ClassId    int
-	CreateDate time.Time
-	LastModify time.Time
+	Title    string
+	AuthorId int
+	Content  string
+	TagId    int
+	ClassId  int
 }
 
-func AddArticle(json *ArticleJson) {
-	a := Article{
+func AddArticle(json *ArticleJson) (article *Article) {
+
+	desc := json.Content
+	if len(json.Content) > 50 {
+		desc = json.Content[:50]
+	}
+	article = &Article{
 		Title:       json.Title,
 		AuthorId:    json.AuthorId,
 		Content:     json.Content,
-		Description: json.Content[0:50],
+		Description: desc,
 		TagId:       json.TagId,
 		ClassId:     json.ClassId,
 		Likes:       0,
@@ -45,7 +47,8 @@ func AddArticle(json *ArticleJson) {
 		Views:       0,
 		Display:     true,
 	}
-	db.Insert(&a)
+	db.Insert(article)
+	return article
 }
 
 func GetArticleLatest(count int) (article []*Article) {

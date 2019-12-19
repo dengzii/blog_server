@@ -11,7 +11,7 @@ func Init() {
 	tableArticle := &article.Article{}
 	tableUser := &user.User{}
 	tableTag := &article.Tag{}
-	tableClass := &article.Class{}
+	tableClass := &article.Category{}
 	tableFriend := &friend.Friend{}
 
 	tab := []interface{}{

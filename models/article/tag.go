@@ -8,10 +8,10 @@ import (
 type Tag struct {
 	gorm.Model
 	ClassId      uint
-	Name         string `json:"name"`
-	ArticleCount int    `json:"article_count"`
-	Display      bool   `json:"display"`
-	Style        int    `json:"style"`
+	Name         string
+	ArticleCount int
+	Display      bool
+	Style        int
 }
 
 func AddTag(name string, style int) *Tag {
@@ -27,6 +27,9 @@ func AddTag(name string, style int) *Tag {
 	return tag
 }
 
-func GetTag() (tag *Tag, err error) {
-	return nil, nil
+func GetTags() (tag *[]Tag) {
+
+	var tags []Tag
+	db.Mysql.Find(&tags).Limit(5)
+	return &tags
 }

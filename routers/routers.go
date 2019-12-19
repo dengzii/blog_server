@@ -18,20 +18,25 @@ func Setup(app *bootstrap.Bootstrapper) {
 	app.Handle("GET", "/home", catchErrorRouter(controllers.HomeController))
 
 	app.Handle("GET", "/friends", catchErrorRouter(controllers.GetFriendsController))
-	app.Handle("POST", "/friends", catchErrorRouter(controllers.AddFriendsController))
-	app.Handle("POST", "/user/login", catchErrorRouter(user.LoginController))
+	app.Handle("PUT", "/friends", catchErrorRouter(controllers.AddFriendsController))
 
 	app.Handle("POST", "/article/{id:int}", catchErrorRouter(article.GetArticle))
-	app.Handle("POST", "/article/", catchErrorRouter(article.GetArticle))
+	app.Handle("POST", "/article", catchErrorRouter(article.GetArticle))
 
-	app.Handle("PUT", "/tag/", catchErrorRouter(article.AddTagController))
+	app.Handle("PUT", "/tag", catchErrorRouter(article.AddTagController))
+	app.Handle("GET", "/tag", catchErrorRouter(article.GetTagsController))
 
-	app.Handle("PUT", "/article/", catchErrorRouter(article.AddArticle))
+	app.Handle("PUT", "/category", catchErrorRouter(controllers.AddCategoryController))
+	app.Handle("GET", "/category", catchErrorRouter(controllers.GetCategoriesController))
+
+	app.Handle("PUT", "/article", catchErrorRouter(article.AddArticle))
+	app.Handle("GET", "/article", catchErrorRouter(article.GetArticle))
 
 	app.Handle("GET", "/user/login", catchErrorView("login.html", "", nil))
 
 	usersRouters := app.Party("/user")
 	usersRouters.Put("/", catchErrorRouter(user.Register))
+	usersRouters.Get("/", catchErrorRouter(user.LoginController))
 
 	app.WildcardSubdomain(subdomainRouter)
 
