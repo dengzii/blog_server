@@ -46,7 +46,7 @@ func Setup(app *bootstrap.Bootstrapper) {
 		// When it is not a builtin function available to retrieve your value with the type you want, such as ctx.Params().GetInt
 		// then you can use the `GetEntry.ValueRaw` to get the real value, which is set-ed by your macro above.
 		myparam := ctx.Params().GetEntry("myparam").ValueRaw.([]string)
-		ctx.Writef("myparam's value (a trailing path parameter type) is: %#v\n", myparam)
+		_, _ = ctx.Writef("myparam's value (a trailing path parameter type) is: %#v\n", myparam)
 	})
 
 	userRouter := mainRouter.Party("/{username:alphabetical}")
