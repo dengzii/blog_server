@@ -15,44 +15,35 @@ func Setup(app *bootstrap.Bootstrapper) {
 
 	app.Use(common.AuthorityController)
 
-	mainRouter := app.Party("/")
-
-	userRouter := mainRouter.Party("/{username:alphabetical}")
-
-	userRouter.Handle("GET", "/", catchErrorRouter(controllers.HomeController))
-
-	userArticle := userRouter.Party("/articles")
-	userArticle.Handle("GET", "/", func(i context.Context) {
-		_, _ = i.WriteString("get article from user: " + i.Params().GetString("username"))
-	})
-
-	userArticle.Handle("GET", "/", func(i context.Context) {
-		_, _ = i.WriteString("get article from user: " + i.Params().GetString("username"))
-	})
-	userArticle.Handle("GET", "/{id:uint}", func(i context.Context) {
-		_, _ = i.WriteString("get article id " + i.Params().GetString("id") + ", from user " + i.Params().GetString("username"))
-	})
-
 	app.Handle("GET", "/home", catchErrorRouter(controllers.HomeController))
 
-	app.Handle("GET", "/friends", catchErrorRouter(controllers.GetFriendsController))
-	app.Handle("PUT", "/friends", catchErrorRouter(controllers.AddFriendsController))
+	mainRouter := app.Party("/")
 
-	app.Handle("GET", "/article/{id:uint}", catchErrorRouter(article.GetArticle))
-	app.Handle("PUT", "/article", catchErrorRouter(article.AddArticle))
-	app.Handle("GET", "/article", catchErrorRouter(article.GetArticleLatest))
+	friendRouter := mainRouter.Party("/friend")
+	friendRouter.Get("/", catchErrorRouter(controllers.GetFriendsController))
+	friendRouter.Put("/", catchErrorRouter(controllers.AddFriendsController))
+	friendRouter.Patch("/", catchErrorRouter(controllers.AddFriendsController))
 
-	app.Handle("PUT", "/tag", catchErrorRouter(article.AddTagController))
-	app.Handle("GET", "/tag", catchErrorRouter(article.GetTagsController))
-	app.Handle("PUT", "/category", catchErrorRouter(controllers.AddCategoryController))
+	articleRouter := mainRouter.Party("/article")
+	articleRouter.Get("/{id:uint}", catchErrorRouter(article.GetArticle))
+	articleRouter.Put("/", catchErrorRouter(article.AddArticle))
+	articleRouter.Get("/latest", catchErrorRouter(article.GetArticleLatest))
 
-	app.Handle("GET", "/category", catchErrorRouter(controllers.GetCategoriesController))
+	tagRouter := mainRouter.Party("tag")
+	tagRouter.Put("/", catchErrorRouter(article.AddTagController))
+	tagRouter.Get("/", catchErrorRouter(article.GetTagsController))
+	//tagRouter.Patch("/", catchErrorRouter(article.UpdateTagsController))
 
-	app.Handle("GET", "/user/login", catchErrorView("login.html", "", nil))
+	categoryRouter := mainRouter.Party("category")
+	categoryRouter.Get("/", catchErrorRouter(controllers.AddCategoryController))
+	categoryRouter.Put("/", catchErrorRouter(controllers.GetCategoriesController))
+	//categoryRouter.Patch("/", catchErrorRouter(controllers.PatchCategoriesController))
 
-	usersRouters := app.Party("/user")
-	usersRouters.Put("/", catchErrorRouter(user.Register))
-	usersRouters.Get("/", catchErrorRouter(user.LoginController))
+	userRouter := app.Party("/user")
+	userRouter.Put("/", catchErrorRouter(user.Register))
+	userRouter.Post("/", catchErrorRouter(user.LoginController))
+	//userRouter.Get("", catchErrorRouter(user.ProfileController))
+	//userRouter.Patch("/", catchErrorRouter(user.UpdateController))
 
 	app.WildcardSubdomain(subdomainRouter)
 

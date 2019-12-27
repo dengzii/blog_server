@@ -3,7 +3,7 @@ package user
 import "server/db"
 
 type User struct {
-	Name      string `json:"name"`
+	Name      string `json:"name",gorm:"unique;not null VARCHAR(191)"`
 	Avatar    string `json:"avatar"`
 	Email     string `json:"email"`
 	Bio       string `json:"bio"`
