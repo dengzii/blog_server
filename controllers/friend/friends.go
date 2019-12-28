@@ -1,4 +1,4 @@
-package controllers
+package friend
 
 import "github.com/kataras/iris/context"
 

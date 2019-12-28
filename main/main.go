@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/kataras/iris"
+	"fmt"
 	"server/bootstrap"
+	"server/conf"
 	"server/db"
 	"server/models"
 	"server/routers"
@@ -16,8 +17,7 @@ func main() {
 	models.Init()
 	app = bootstrap.New("dengzi's blog", "dengzi", true)
 
-	config := iris.YAML("./conf/iris.yml")
-	app.Configure(iris.WithConfiguration(config))
+	fmt.Println(conf.Get())
 	app.SetupViews("./views")
 	app.Bootstrap()
 

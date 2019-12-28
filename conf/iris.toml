@@ -1,0 +1,13 @@
+[Iris]
+Name = "dengzi's blog"
+Owner = "dengzi"
+Port    = 80
+Charset = "UTF-8"
+
+[db]
+Host     = "localhost"
+Port     = 3306
+Database = "blog"
+Username = "root"
+Password = "root"
+Charset  = "utf-8"
