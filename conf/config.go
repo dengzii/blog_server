@@ -19,7 +19,7 @@ type DbConfig struct {
 
 type IrisConfig struct {
 	Port    uint
-	Name    string
+	AppName string
 	Owner   string
 	Charset string
 }

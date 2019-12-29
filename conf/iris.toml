@@ -1,5 +1,5 @@
 [Iris]
-Name = "dengzi's blog"
+AppName = "dengzi's blog"
 Owner = "dengzi"
 Port    = 80
 Charset = "UTF-8"
@@ -10,4 +10,4 @@ Port     = 3306
 Database = "blog"
 Username = "root"
 Password = "root"
-Charset  = "utf-8"
+Charset  = "utf8"

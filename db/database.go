@@ -1,8 +1,10 @@
 package db
 
 import (
+	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"server/conf"
 	"server/tools"
 )
 
@@ -11,7 +13,11 @@ var Mysql *gorm.DB
 func Init() {
 
 	var err error
-	Mysql, err = gorm.Open("mysql", "root:root@/blog?charset=utf8&parseTime=True&loc=Local")
+	dbConf := conf.Get().Db
+	dbUrl := fmt.Sprintf("%s:%s@/%s?charset=%s&parseTime=True&loc=Local",
+		dbConf.Password, dbConf.Username, dbConf.Database, dbConf.Charset)
+	fmt.Println(dbUrl)
+	Mysql, err = gorm.Open("mysql", dbUrl)
 
 	if err != nil {
 		panic("db init failed!" + err.Error())

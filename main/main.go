@@ -15,12 +15,14 @@ func main() {
 
 	db.Init()
 	models.Init()
-	app = bootstrap.New("dengzi's blog", "dengzi", true)
+	app = bootstrap.New(
+		conf.Get().Iris.AppName,
+		conf.Get().Iris.Owner,
+		true)
 
-	fmt.Println(conf.Get())
 	app.SetupViews("./views")
 	app.Bootstrap()
 
 	routers.Setup(app)
-	app.Listen(":80")
+	app.Listen(fmt.Sprintf(":%d", conf.Get().Iris.Port))
 }
