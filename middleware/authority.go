@@ -14,6 +14,7 @@ func (s Authentication) Attach(bootstrap *bootstrap.Bootstrapper) {
 }
 
 func Auth() *jailer.Middleware {
+
 	return jailer.New(jailer.Config{
 		ValidationKeyGetter: func(token *jwt.Token) (i interface{}, e error) {
 			return []byte("secret"), nil
