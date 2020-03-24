@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"server/bootstrap"
-	"server/conf"
-	"server/db"
-	"server/models"
-	"server/routers"
+	"github.com/dengzii/blog_server/bootstrap"
+	"github.com/dengzii/blog_server/conf"
+	"github.com/dengzii/blog_server/db"
+	"github.com/dengzii/blog_server/models"
+	"github.com/dengzii/blog_server/routers"
 )
 
 var app *bootstrap.Bootstrapper

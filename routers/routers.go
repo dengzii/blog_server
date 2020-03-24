@@ -1,17 +1,17 @@
 package routers
 
 import (
+	"github.com/dengzii/blog_server/bootstrap"
+	"github.com/dengzii/blog_server/controllers"
+	"github.com/dengzii/blog_server/controllers/article"
+	"github.com/dengzii/blog_server/controllers/category"
+	"github.com/dengzii/blog_server/controllers/common"
+	"github.com/dengzii/blog_server/controllers/friend"
+	"github.com/dengzii/blog_server/controllers/user"
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/context"
 	"github.com/kataras/iris/core/router"
 	"log"
-	"server/bootstrap"
-	"server/controllers"
-	"server/controllers/article"
-	"server/controllers/category"
-	"server/controllers/common"
-	"server/controllers/friend"
-	"server/controllers/user"
 )
 
 func Setup(app *bootstrap.Bootstrapper) {
@@ -93,7 +93,7 @@ func catchErrorRouter(router func(context.Context) error) func(context.Context) 
 }
 
 func subdomainRouter(ctx context.Context) {
-	ctx.Application().Logger().Info("=> " + ctx.Subdomain())
+	//ctx.Application().Logger().Info("=> " + ctx.Subdomain())
 }
 
 func errorRouter(app *bootstrap.Bootstrapper) {

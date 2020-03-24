@@ -1,8 +1,8 @@
 package controllers
 
 import (
+	"github.com/dengzii/blog_server/models/article"
 	"github.com/kataras/iris/context"
-	"server/models/article"
 )
 
 func HomeController(ctx context.Context) (err error) {

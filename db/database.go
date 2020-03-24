@@ -2,10 +2,10 @@ package db
 
 import (
 	"fmt"
+	"github.com/dengzii/blog_server/conf"
+	"github.com/dengzii/blog_server/tools"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
-	"server/conf"
-	"server/tools"
 )
 
 var Mysql *gorm.DB

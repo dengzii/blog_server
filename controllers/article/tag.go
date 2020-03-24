@@ -1,9 +1,9 @@
 package article
 
 import (
+	"github.com/dengzii/blog_server/controllers"
+	"github.com/dengzii/blog_server/models/article"
 	"github.com/kataras/iris/context"
-	"server/controllers"
-	"server/models/article"
 )
 
 type tagJson struct {

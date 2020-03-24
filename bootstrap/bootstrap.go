@@ -93,7 +93,7 @@ func (b *Bootstrapper) Bootstrap() *Bootstrapper {
 	b.SetupErrorHandlers()
 
 	// static files
-	b.StaticHandler(StaticAssets, false, false)
+	//b.StaticHandler(StaticAssets, false, false)
 	b.Favicon(StaticAssets + Favicon)
 	//b.HandleDir(StaticAssets[1:len(StaticAssets)-1], StaticAssets)
 

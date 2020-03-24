@@ -1,8 +1,8 @@
 package friend
 
 import (
+	"github.com/dengzii/blog_server/db"
 	"github.com/jinzhu/gorm"
-	"server/db"
 )
 
 type Friend struct {
