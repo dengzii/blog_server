@@ -1,7 +1,7 @@
 [Iris]
 AppName = "dengzi's blog"
 Owner = "dengzi"
-Port    = 80
+Port    = 8000
 Charset = "UTF-8"
 
 [db]
