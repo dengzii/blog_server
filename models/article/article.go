@@ -2,26 +2,27 @@ package article
 
 import (
 	"github.com/dengzii/blog_server/db"
-	"github.com/jinzhu/gorm"
+	"github.com/dengzii/blog_server/models/base"
+	"time"
 )
 
 type Article struct {
-	gorm.Model
-	Title       string
-	AuthorId    int
-	Content     string
-	Description string
-	Tag         Tag `gorm:"ForeignKey:TagId"`
-	TagId       int
-	Class       Category `gorm:"ForeignKey:ClassId"`
-	ClassId     int
-	Likes       int
-	Comments    int
-	Views       int
-	Display     bool `gorm:"default:true"`
+	base.CommonModel
+	Title       string   `json:"title"`
+	AuthorId    int      `json:"author_id"`
+	Content     string   `json:"content"`
+	Description string   `json:"description"`
+	Tag         Tag      `json:"tag" gorm:"ForeignKey:TagId"`
+	TagId       int      `json:"tag_id"`
+	Class       Category `json:"class" gorm:"ForeignKey:ClassId"`
+	ClassId     int      `json:"class_id"`
+	Likes       int      `json:"likes"`
+	Comments    int      `json:"comments"`
+	Views       int      `json:"views"`
+	Display     bool     `json:"-" gorm:"default:true"`
 }
 
-type ArticleJson struct {
+type Json struct {
 	Title    string
 	AuthorId int
 	Content  string
@@ -29,31 +30,19 @@ type ArticleJson struct {
 	ClassId  int
 }
 
-func AddArticle(json *ArticleJson) (article *Article) {
-
-	desc := json.Content
-	if len(json.Content) > 50 {
-		desc = json.Content[:50]
+func AddArticle(new *Article) (article *Article) {
+	desc := new.Content
+	if len(new.Content) > 50 {
+		desc = new.Content[:50]
 	}
-	article = &Article{
-		Title:       json.Title,
-		AuthorId:    json.AuthorId,
-		Content:     json.Content,
-		Description: desc,
-		TagId:       json.TagId,
-		ClassId:     json.ClassId,
-		Likes:       0,
-		Comments:    0,
-		Views:       0,
-		Display:     true,
-	}
-	db.Insert(article)
-	return article
+	new.Description = desc
+	new.CreatedAt = time.Now().Unix()
+	db.Insert(new)
+	return new
 }
 
 func GetArticleLatest(count int) (article []*Article) {
-
-	db.Mysql.Find(&article).Order("create_at", true).Limit(count)
+	db.Mysql.Find(&article).Order("created_at", true).Limit(count)
 	return article
 }
 

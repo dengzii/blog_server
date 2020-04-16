@@ -29,12 +29,12 @@ func GetArticle(ctx context.Context) (err error) {
 
 func AddArticle(ctx context.Context) (err error) {
 
-	articleJson := &article.ArticleJson{}
-	err = ctx.ReadJSON(articleJson)
+	newArticle := &article.Article{}
+	err = ctx.ReadJSON(newArticle)
 	if err != nil {
 		return err
 	}
-	art := article.AddArticle(articleJson)
+	art := article.AddArticle(newArticle)
 	if art == nil {
 		return errors.New("create article failure")
 	}

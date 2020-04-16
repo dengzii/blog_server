@@ -1,6 +1,8 @@
 package user
 
-import "github.com/jinzhu/gorm"
+import (
+	"github.com/dengzii/blog_server/models/base"
+)
 
 const (
 	del           = 1 >> 8
@@ -12,7 +14,7 @@ const (
 )
 
 type Role struct {
-	gorm.Model
+	base.CommonModel
 	Name        string
 	Description string
 	Permission  int

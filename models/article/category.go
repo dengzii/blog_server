@@ -2,14 +2,14 @@ package article
 
 import (
 	"github.com/dengzii/blog_server/db"
-	"github.com/jinzhu/gorm"
+	"github.com/dengzii/blog_server/models/base"
 )
 
 type Category struct {
-	gorm.Model
-	Name         string
-	ArticleCount int
-	Display      bool
+	base.CommonModel
+	Name         string `json:"name"`
+	ArticleCount int    `json:"article_count"`
+	Display      bool   `json:"display"`
 }
 
 func AddCategory(name string) (category *Category) {
