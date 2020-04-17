@@ -9,12 +9,13 @@ var (
 )
 
 type DbConfig struct {
-	Host     string
-	Port     uint
-	Database string
-	Username string
-	Password string
-	Charset  string
+	Host      string
+	Port      uint
+	Database  string
+	Username  string
+	Password  string
+	Charset   string
+	LogEnable bool
 }
 
 type IrisConfig struct {

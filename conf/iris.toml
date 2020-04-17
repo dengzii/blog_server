@@ -11,3 +11,4 @@ Database = "blog"
 Username = "root"
 Password = "root"
 Charset  = "utf8"
+LogEnable = true

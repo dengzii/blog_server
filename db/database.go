@@ -18,10 +18,10 @@ func Init() {
 		dbConf.Password, dbConf.Username, dbConf.Database, dbConf.Charset)
 	fmt.Println(dbUrl)
 	Mysql, err = gorm.Open("mysql", dbUrl)
-
 	if err != nil {
 		panic("db init failed!" + err.Error())
 	}
+	Mysql.LogMode(dbConf.LogEnable)
 }
 
 func Insert(value interface{}) (success bool) {

@@ -34,7 +34,7 @@ func AddArticle(ctx context.Context) (err error) {
 	if err != nil {
 		return err
 	}
-	art := article.AddArticle(newArticle)
+	art, _ := newArticle.Insert()
 	if art == nil {
 		return errors.New("create article failure")
 	}

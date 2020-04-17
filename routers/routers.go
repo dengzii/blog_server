@@ -2,7 +2,6 @@ package routers
 
 import (
 	"github.com/dengzii/blog_server/bootstrap"
-	"github.com/dengzii/blog_server/controllers"
 	"github.com/dengzii/blog_server/controllers/article"
 	"github.com/dengzii/blog_server/controllers/category"
 	"github.com/dengzii/blog_server/controllers/common"
@@ -17,8 +16,6 @@ import (
 func Setup(app *bootstrap.Bootstrapper) {
 
 	app.Use(common.AuthorityController)
-
-	app.Handle("GET", "/home", catchErrorRouter(controllers.HomeController))
 
 	mainRouter := app.Party("/{username:string  regexp(^[A-Za-z0-9]{4,12})}")
 
