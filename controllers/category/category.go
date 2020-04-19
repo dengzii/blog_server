@@ -17,7 +17,7 @@ func AddCategoryController(ctx context.Context) (err error) {
 	if category == nil {
 		err = controllers.NewControllerError("add category failure.", 0)
 	} else {
-		_, err = ctx.JSON(controllers.SuccessResponse("add category success", category))
+		_, err = ctx.JSON(controllers.SuccessResponse(category))
 	}
 	return err
 }
@@ -25,6 +25,6 @@ func AddCategoryController(ctx context.Context) (err error) {
 func GetCategoriesController(ctx context.Context) (err error) {
 
 	tags := article.GetCategories()
-	_, err = ctx.JSON(controllers.SuccessResponse("get category success", tags))
+	_, err = ctx.JSON(controllers.SuccessResponse(tags))
 	return
 }

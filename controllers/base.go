@@ -18,11 +18,11 @@ func ErrorResponse(status int, msg string, data interface{}) *Json {
 	}
 }
 
-func SuccessResponse(msg string, data interface{}) *Json {
+func SuccessResponse(data interface{}) *Json {
 
 	return &Json{
 		Status: 200,
-		Msg:    msg,
+		Msg:    "success",
 		Data:   data,
 	}
 }

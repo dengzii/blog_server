@@ -5,15 +5,15 @@ import (
 	"time"
 )
 
-func (newArticle *Article) Insert() (article *Article, err error) {
-	desc := newArticle.Content
-	if len(newArticle.Content) > 50 {
-		desc = newArticle.Content[:50]
+func (that *Article) Insert() (article *Article, err error) {
+	desc := that.Content
+	if len(that.Content) > 50 {
+		desc = that.Content[:50]
 	}
-	newArticle.Description = desc
-	newArticle.CreatedAt = time.Now().Unix()
-	db.Insert(newArticle)
-	return newArticle, nil
+	that.Description = desc
+	that.CreatedAt = time.Now().Unix()
+	db.Insert(that)
+	return that, nil
 }
 
 func Insert(newArticle *Article) (article *Article, err error) {
@@ -22,18 +22,31 @@ func Insert(newArticle *Article) (article *Article, err error) {
 		desc = newArticle.Content[:50]
 	}
 	newArticle.Description = desc
-	newArticle.CreatedAt = time.Now().Unix()
+	//newArticle.CreatedAt = time.Now().Unix()
+	//newArticle.UpdatedAt = newArticle.CreatedAt
 	db.Insert(newArticle)
 	return newArticle, nil
 }
 
-func GetArticleLatest(count int) (article []*Article) {
-	db.Mysql.Find(&article).Order("created_at", true).Limit(count)
-	return article
+func GetArticleLatest(from int64, count int) (articles []*ArticleBase) {
+	var article []*Article
+
+	println(from)
+	db.Mysql.
+		Find(&article).
+		Where("updated_at < ?", from).
+		Order("created_at", true).
+		Limit(count)
+
+	articles = make([]*ArticleBase, len(article))
+	for i, v := range article {
+		articles[i] = v.toArticleBase()
+	}
+	return articles
 }
 
-func GetArticle(id int) *Article {
-	var article Article
+func GetArticle(id int) *ArticleBase {
+	var article ArticleBase
 	db.Mysql.Where("id = ?", id).Find(&article).Limit(1)
 	return &article
 }

@@ -5,12 +5,17 @@ import (
 	"github.com/dengzii/blog_server/controllers"
 	"github.com/dengzii/blog_server/models/article"
 	"github.com/kataras/iris/context"
+	"time"
 )
 
 func GetArticleLatest(ctx context.Context) (err error) {
 
-	articles := article.GetArticleLatest(10)
-	responseJson := controllers.ErrorResponse(200, "success", articles)
+	from, err := ctx.URLParamInt64("from")
+	if from == -1 || err != nil {
+		from = time.Now().Unix()
+	}
+	articles := article.GetArticleLatest(from, 10)
+	responseJson := controllers.SuccessResponse(articles)
 	_, err = ctx.JSON(responseJson)
 	return err
 }
@@ -22,7 +27,7 @@ func GetArticle(ctx context.Context) (err error) {
 		return
 	}
 	articles := article.GetArticle(id)
-	responseJson := controllers.ErrorResponse(200, "success", articles)
+	responseJson := controllers.SuccessResponse(articles)
 	_, err = ctx.JSON(responseJson)
 	return
 }
@@ -38,6 +43,6 @@ func AddArticle(ctx context.Context) (err error) {
 	if art == nil {
 		return errors.New("create article failure")
 	}
-	_, err = ctx.JSON(controllers.SuccessResponse("success", art))
+	_, err = ctx.JSON(controllers.SuccessResponse(art))
 	return err
 }

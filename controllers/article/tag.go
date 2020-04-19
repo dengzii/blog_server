@@ -18,7 +18,7 @@ func AddTagController(ctx context.Context) (err error) {
 	if tag == nil {
 		err = controllers.NewControllerError("add tag failure.", 0)
 	} else {
-		_, err = ctx.JSON(controllers.SuccessResponse("add tag success", tag))
+		_, err = ctx.JSON(controllers.SuccessResponse(tag))
 	}
 	return err
 }
@@ -26,6 +26,6 @@ func AddTagController(ctx context.Context) (err error) {
 func GetTagsController(ctx context.Context) (err error) {
 
 	tags := article.GetTags()
-	_, err = ctx.JSON(controllers.SuccessResponse("get tags success", tags))
+	_, err = ctx.JSON(controllers.SuccessResponse(tags))
 	return
 }
