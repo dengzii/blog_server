@@ -31,12 +31,11 @@ func Insert(newArticle *Article) (article *Article, err error) {
 func GetArticleLatest(from int64, count int) (articles []*ArticleBase) {
 	var article []*Article
 
-	println(from)
 	db.Mysql.
-		Find(&article).
+		Order("updated_at desc").
 		Where("updated_at < ?", from).
-		Order("created_at", true).
-		Limit(count)
+		Limit(count).
+		Find(&article)
 
 	articles = make([]*ArticleBase, len(article))
 	for i, v := range article {

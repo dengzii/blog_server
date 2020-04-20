@@ -14,7 +14,7 @@ func GetArticleLatest(ctx context.Context) (err error) {
 	if from == -1 || err != nil {
 		from = time.Now().Unix()
 	}
-	articles := article.GetArticleLatest(from, 10)
+	articles := article.GetArticleLatest(from, 3)
 	responseJson := controllers.SuccessResponse(articles)
 	_, err = ctx.JSON(responseJson)
 	return err
