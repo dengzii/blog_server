@@ -2,6 +2,7 @@ package article
 
 import (
 	"github.com/dengzii/blog_server/db"
+	"github.com/jinzhu/gorm"
 	"time"
 )
 
@@ -28,11 +29,17 @@ func Insert(newArticle *Article) (article *Article, err error) {
 	return newArticle, nil
 }
 
-func GetArticleLatest(from int64, count int) (articles []*ArticleBase) {
+func GetArticles(from int64, category string, count int) (articles []*ArticleBase) {
 	var article []*Article
 
-	db.Mysql.
-		Order("updated_at desc").
+	var query *gorm.DB
+	query = db.Mysql.Order("updated_at desc")
+
+	if len(category) > 0 {
+		query = query.Where("category_name = ?", category)
+	}
+
+	query.
 		Where("updated_at < ?", from).
 		Limit(count).
 		Find(&article)

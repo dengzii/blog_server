@@ -19,7 +19,8 @@ func Setup(app *bootstrap.Bootstrapper) {
 
 	mainRouter := app.Party("/{username:string  regexp(^[A-Za-z0-9]{4,12})}")
 
-	mainRouter.Get("/", catchErrorRouter(article.GetArticleLatest))
+	mainRouter.Get("/", catchErrorRouter(article.GetArticles))
+	mainRouter.Get("/articles", catchErrorRouter(article.GetArticles))
 
 	mainRouter.PartyFunc("/friend", friendRouterFunc)
 	mainRouter.PartyFunc("/article", articleRouterFunc)
@@ -50,7 +51,7 @@ func friendRouterFunc(p router.Party) {
 func articleRouterFunc(p router.Party) {
 	p.Get("/{id:uint}", catchErrorRouter(article.GetArticle))
 	p.Put("/", catchErrorRouter(article.AddArticle))
-	p.Get("/latest", catchErrorRouter(article.GetArticleLatest))
+	p.Get("/", catchErrorRouter(article.GetArticles))
 }
 
 func tagRouterFunc(p router.Party) {

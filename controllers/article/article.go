@@ -8,13 +8,14 @@ import (
 	"time"
 )
 
-func GetArticleLatest(ctx context.Context) (err error) {
+func GetArticles(ctx context.Context) (err error) {
 
-	from, err := ctx.URLParamInt64("from")
-	if from == -1 || err != nil {
-		from = time.Now().Unix()
+	last, err := ctx.URLParamInt64("last")
+	var category = ctx.URLParam("category")
+	if last == -1 || err != nil {
+		last = time.Now().Unix()
 	}
-	articles := article.GetArticleLatest(from, 3)
+	articles := article.GetArticles(last, category, 3)
 	responseJson := controllers.SuccessResponse(articles)
 	_, err = ctx.JSON(responseJson)
 	return err
