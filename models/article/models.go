@@ -57,7 +57,7 @@ type Category struct {
 	base.CommonModel
 	Name         string `json:"name"`
 	ArticleCount int    `json:"article_count"`
-	Display      bool   `json:"display"`
+	Display      bool   `json:"-"`
 }
 
 type Tag struct {
@@ -65,7 +65,7 @@ type Tag struct {
 	ClassId      uint   `json:"class_id"`
 	Name         string `json:"name"`
 	ArticleCount int    `json:"article_count"`
-	Display      bool   `json:"display"`
+	Display      bool   `json:"display,omitempty"`
 	Style        int    `json:"style"`
 }
 

@@ -63,8 +63,8 @@ func tagRouterFunc(p router.Party) {
 
 func categoryRouterFunc(p router.Party) {
 
-	p.Get("/", catchErrorRouter(category.AddCategoryController))
-	p.Put("/", catchErrorRouter(category.GetCategoriesController))
+	p.Get("/", catchErrorRouter(category.GetCategoriesController))
+	p.Put("/", catchErrorRouter(category.AddCategoryController))
 	//p.Patch("/", catchErrorRouter(controllers.PatchCategoriesController))
 }
 

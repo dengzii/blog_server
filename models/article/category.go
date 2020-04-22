@@ -15,8 +15,7 @@ func AddCategory(name string) (category *Category) {
 	return
 }
 
-func GetCategories() *[]Category {
-	var categories []Category
-	db.Mysql.Find(&categories).Limit(5)
-	return &categories
+func GetCategories() (categories []*Category) {
+	db.Mysql.Find(&categories).Limit(20)
+	return
 }
