@@ -1,6 +1,8 @@
 package article
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"github.com/dengzii/blog_server/db"
 	"github.com/jinzhu/gorm"
 	"time"
@@ -23,6 +25,11 @@ func Insert(newArticle *Article) (article *Article, err error) {
 		desc = newArticle.Content[:50]
 	}
 	newArticle.Description = desc
+
+	h := md5.New()
+	h.Write([]byte(newArticle.Title))
+	newArticle.ID = hex.EncodeToString(h.Sum(nil))
+
 	//newArticle.CreatedAt = time.Now().Unix()
 	//newArticle.UpdatedAt = newArticle.CreatedAt
 	db.Insert(newArticle)
@@ -35,7 +42,7 @@ func GetArticles(from int64, category string, count int) (articles []*ArticleBas
 	var query *gorm.DB
 	query = db.Mysql.Order("updated_at desc")
 
-	if len(category) > 0 {
+	if len(category) > 0 && category != "All" {
 		query = query.Where("category_name = ?", category)
 	}
 

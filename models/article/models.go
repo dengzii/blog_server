@@ -9,7 +9,7 @@ import (
 
 type ArticleBase struct {
 	base.CommonModel
-
+	ID           string `json:"id" gorm:"primary_key"`
 	Title        string `json:"title"`
 	AuthorId     int    `json:"-"`
 	AuthorName   string `json:"author_name"`
