@@ -9,24 +9,24 @@ import (
 
 type ArticleBase struct {
 	base.CommonModel
-	ID           string `json:"id" gorm:"primary_key"`
-	Title        string `json:"title"`
+	CID          string `json:"cid,omitempty"`
+	Title        string `json:"title,omitempty"`
 	AuthorId     int    `json:"-"`
-	AuthorName   string `json:"author_name"`
-	Description  string `json:"description"`
-	TagName      string `json:"tag_name"`
-	CategoryName string `json:"category_name"`
-	Likes        int    `json:"likes"`
-	Views        int    `json:"views"`
+	AuthorName   string `json:"author_name,omitempty"`
+	Description  string `json:"description,omitempty"`
+	TagName      string `json:"tag_name,omitempty"`
+	CategoryName string `json:"category_name,omitempty"`
+	Likes        int    `json:"likes,omitempty"`
+	Views        int    `json:"views,omitempty"`
 }
 
 type Article struct {
 	ArticleBase
 
-	Comments int      `json:"comments"`
-	Tag      Tag      `json:"tag" gorm:"ForeignKey:TagId"`
-	Category Category `json:"category" gorm:"ForeignKey:CategoryId"`
-	Content  string   `json:"content"`
+	Comments int      `json:"comments,omitempty"`
+	Tag      Tag      `json:"tag,omitempty" gorm:"ForeignKey:TagId"`
+	Category Category `json:"category,omitempty" gorm:"ForeignKey:CategoryId"`
+	Content  string   `json:"content,omitempty"`
 	Display  bool     `json:"-" gorm:"default:true"`
 }
 

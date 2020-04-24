@@ -28,10 +28,10 @@ func Insert(newArticle *Article) (article *Article, err error) {
 
 	h := md5.New()
 	h.Write([]byte(newArticle.Title))
-	newArticle.ID = hex.EncodeToString(h.Sum(nil))
+	newArticle.CID = hex.EncodeToString(h.Sum(nil))
 
-	//newArticle.CreatedAt = time.Now().Unix()
-	//newArticle.UpdatedAt = newArticle.CreatedAt
+	newArticle.CreatedAt = time.Now().Unix()
+	newArticle.UpdatedAt = newArticle.CreatedAt
 	db.Insert(newArticle)
 	return newArticle, nil
 }

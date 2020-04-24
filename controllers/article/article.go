@@ -21,6 +21,11 @@ func GetArticles(ctx context.Context) (err error) {
 	return err
 }
 
+func GetArchive(ctx context.Context) (err error) {
+
+	return nil
+}
+
 func GetArticle(ctx context.Context) (err error) {
 
 	id, err := ctx.Params().GetInt("id")
