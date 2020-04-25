@@ -8,18 +8,8 @@ import (
 	"time"
 )
 
-func (that *Article) Insert() (article *Article, err error) {
-	desc := that.Content
-	if len(that.Content) > 50 {
-		desc = that.Content[:50]
-	}
-	that.Description = desc
-	that.CreatedAt = time.Now().Unix()
-	db.Insert(that)
-	return that, nil
-}
+func AddArticle(newArticle *Article) (article *Article, err error) {
 
-func Insert(newArticle *Article) (article *Article, err error) {
 	desc := newArticle.Content
 	if len(newArticle.Content) > 50 {
 		desc = newArticle.Content[:50]
@@ -32,7 +22,14 @@ func Insert(newArticle *Article) (article *Article, err error) {
 
 	newArticle.CreatedAt = time.Now().Unix()
 	newArticle.UpdatedAt = newArticle.CreatedAt
-	db.Insert(newArticle)
+
+	if db.Insert(newArticle) {
+		db.Insert(&Archive{
+			CreatedAt: newArticle.CreatedAt,
+			CID:       newArticle.CID,
+			Title:     newArticle.Title,
+		})
+	}
 	return newArticle, nil
 }
 
@@ -62,6 +59,11 @@ func GetArticle(id int) *ArticleBase {
 	var article ArticleBase
 	db.Mysql.Where("id = ?", id).Find(&article).Limit(1)
 	return &article
+}
+
+func GetArchive() (archive []*Archive) {
+	db.Mysql.Order("created_at desc").Find(&archive)
+	return
 }
 
 func DelArticle(id int) {

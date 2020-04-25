@@ -53,6 +53,13 @@ func (that *Article) BeforeDelete(scope *gorm.Scope) error {
 	return nil
 }
 
+type Archive struct {
+	ID        uint   `json:"-" gorm:"primary_key"`
+	CreatedAt int64  `json:"created_at,omitempty"`
+	CID       string `json:"cid"`
+	Title     string `json:"title"`
+}
+
 type Category struct {
 	base.CommonModel
 	Name         string `json:"name"`

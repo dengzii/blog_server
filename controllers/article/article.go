@@ -23,7 +23,10 @@ func GetArticles(ctx context.Context) (err error) {
 
 func GetArchive(ctx context.Context) (err error) {
 
-	return nil
+	archive := article.GetArchive()
+	response := controllers.SuccessResponse(archive)
+	_, err = ctx.JSON(response)
+	return err
 }
 
 func GetArticle(ctx context.Context) (err error) {
@@ -45,7 +48,7 @@ func AddArticle(ctx context.Context) (err error) {
 	if err != nil {
 		return err
 	}
-	art, _ := newArticle.Insert()
+	art, _ := article.AddArticle(newArticle)
 	if art == nil {
 		return errors.New("create article failure")
 	}

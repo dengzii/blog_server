@@ -3,7 +3,6 @@ package routers
 import (
 	"github.com/dengzii/blog_server/bootstrap"
 	"github.com/dengzii/blog_server/controllers/article"
-	"github.com/dengzii/blog_server/controllers/category"
 	"github.com/dengzii/blog_server/controllers/common"
 	"github.com/dengzii/blog_server/controllers/friend"
 	"github.com/dengzii/blog_server/controllers/user"
@@ -23,6 +22,7 @@ func Setup(app *bootstrap.Bootstrapper) {
 	mainRouter.Get("/articles", catchErrorRouter(article.GetArticles))
 	mainRouter.Get("/archive", catchErrorRouter(article.GetArchive))
 
+	mainRouter.PartyFunc("/about", aboutRouterFunc)
 	mainRouter.PartyFunc("/friend", friendRouterFunc)
 	mainRouter.PartyFunc("/article", articleRouterFunc)
 	mainRouter.PartyFunc("/category", categoryRouterFunc)
@@ -41,6 +41,11 @@ func userRouterFunc(p router.Party) {
 	p.Post("/", catchErrorRouter(user.LoginController))
 	//p.Get("/", catchErrorRouter(user.ProfileController))
 	//p.Patch("/", catchErrorRouter(user.UpdateController))
+}
+
+func aboutRouterFunc(p router.Party) {
+	p.Get("/", catchErrorRouter(user.GetAbout))
+	p.Put("/", catchErrorRouter(user.AddAbout))
 }
 
 func friendRouterFunc(p router.Party) {
@@ -64,8 +69,8 @@ func tagRouterFunc(p router.Party) {
 
 func categoryRouterFunc(p router.Party) {
 
-	p.Get("/", catchErrorRouter(category.GetCategoriesController))
-	p.Put("/", catchErrorRouter(category.AddCategoryController))
+	p.Get("/", catchErrorRouter(article.GetCategoriesController))
+	p.Put("/", catchErrorRouter(article.AddCategoryController))
 	//p.Patch("/", catchErrorRouter(controllers.PatchCategoriesController))
 }
 

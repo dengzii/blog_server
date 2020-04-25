@@ -13,10 +13,11 @@ func Init() {
 	tableTag := &article.Tag{}
 	tableClass := &article.Category{}
 	tableFriend := &friend.Friend{}
+	tableArchive := &article.Archive{}
 
 	tab := []interface{}{
-		tableUser, tableTag, tableClass, tableFriend, tableArticle,
-		&Comment{},
+		tableUser, tableTag, tableClass, tableFriend, tableArticle, tableArchive,
+		&Comment{}, &user.About{},
 	}
 
 	db.CreateTable(tab)
