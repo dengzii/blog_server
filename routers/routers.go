@@ -22,6 +22,10 @@ func Setup(app *bootstrap.Bootstrapper) {
 	mainRouter.Get("/articles", catchErrorRouter(article.GetArticles))
 	mainRouter.Get("/archive", catchErrorRouter(article.GetArchive))
 
+	mainRouter.Options("/friend", func(i context.Context) {
+
+	})
+
 	mainRouter.PartyFunc("/about", aboutRouterFunc)
 	mainRouter.PartyFunc("/friend", friendRouterFunc)
 	mainRouter.PartyFunc("/article", articleRouterFunc)

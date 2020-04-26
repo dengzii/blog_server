@@ -3,6 +3,7 @@ package user
 import (
 	"github.com/dengzii/blog_server/db"
 	"github.com/dengzii/blog_server/models/base"
+	"time"
 )
 
 type About struct {
@@ -25,6 +26,7 @@ func GetAbout() (about *About) {
 
 func AddAbout(about *About) {
 
+	about.UpdatedAt = time.Now().Unix()
 	db.Insert(about)
 	return
 }
