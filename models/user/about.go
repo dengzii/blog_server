@@ -27,6 +27,6 @@ func GetAbout() (about *About) {
 func AddAbout(about *About) {
 
 	about.UpdatedAt = time.Now().Unix()
-	db.Insert(about)
+	db.Insert(&about)
 	return
 }

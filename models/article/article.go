@@ -26,7 +26,7 @@ func AddArticle(newArticle *Article) (article *Article, err error) {
 	if db.Insert(newArticle) {
 		db.Insert(&Archive{
 			CreatedAt: newArticle.CreatedAt,
-			CID:       newArticle.CID,
+			ID:        newArticle.ID,
 			Title:     newArticle.Title,
 		})
 	}
@@ -55,9 +55,10 @@ func GetArticles(from int64, category string, count int) (articles []*ArticleBas
 	return articles
 }
 
-func GetArticle(id int) *ArticleBase {
-	var article ArticleBase
+func GetArticle(id int) *Article {
+	var article Article
 	db.Mysql.Where("id = ?", id).Find(&article).Limit(1)
+	article.Description = ""
 	return &article
 }
 

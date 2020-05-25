@@ -10,8 +10,12 @@ func AddFriendsController(ctx context.Context) (err error) {
 
 	var f *friend.Friend
 	err = ctx.ReadJSON(&f)
-	_ = friend.AddFriend(f)
-	_, _ = ctx.JSON(controllers.SuccessResponse(nil))
+	result := friend.AddFriend(f)
+	if result != nil {
+		_, _ = ctx.JSON(controllers.SuccessResponse(nil))
+	} else {
+		_, _ = ctx.JSON(controllers.ErrorResponse(500, "Something went wrong.", nil))
+	}
 	return err
 }
 

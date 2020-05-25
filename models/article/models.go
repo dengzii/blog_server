@@ -9,21 +9,22 @@ import (
 
 type ArticleBase struct {
 	base.CommonModel
-	CID          string `json:"cid,omitempty"`
+	Id           uint   `json:"id,omitempty"`
+	CID          string `json:"-"`
 	Title        string `json:"title,omitempty"`
-	AuthorId     int    `json:"-"`
-	AuthorName   string `json:"author_name,omitempty"`
+	AuthorId     uint   `json:"-"`
+	AuthorName   string `json:"author_name,omitempty default:dengzi"`
 	Description  string `json:"description,omitempty"`
 	TagName      string `json:"tag_name,omitempty"`
 	CategoryName string `json:"category_name,omitempty"`
-	Likes        int    `json:"likes,omitempty"`
-	Views        int    `json:"views,omitempty"`
+	Likes        uint   `json:"likes,omitempty default:0"`
+	Views        uint   `json:"views,omitempty default:0"`
 }
 
 type Article struct {
 	ArticleBase
 
-	Comments int      `json:"comments,omitempty"`
+	Comments uint     `json:"comments,omitempty default:0"`
 	Tag      Tag      `json:"tag,omitempty" gorm:"ForeignKey:TagId"`
 	Category Category `json:"category,omitempty" gorm:"ForeignKey:CategoryId"`
 	Content  string   `json:"content,omitempty"`
@@ -54,9 +55,8 @@ func (that *Article) BeforeDelete(scope *gorm.Scope) error {
 }
 
 type Archive struct {
-	ID        uint   `json:"-" gorm:"primary_key"`
+	ID        uint   `json:"id" gorm:"primary_key"`
 	CreatedAt int64  `json:"created_at,omitempty"`
-	CID       string `json:"cid"`
 	Title     string `json:"title"`
 }
 
@@ -72,12 +72,13 @@ type Tag struct {
 	ClassId      uint   `json:"class_id"`
 	Name         string `json:"name"`
 	ArticleCount int    `json:"article_count"`
-	Display      bool   `json:"display,omitempty"`
-	Style        int    `json:"style"`
+	Display      bool   `json:"-"`
+	Style        int    `json:"-"`
 }
 
 func (that *Article) toArticleBase() (articleBase *ArticleBase) {
 	articleBase = &ArticleBase{
+		Id:           that.ID,
 		Title:        that.Title,
 		AuthorName:   that.AuthorName,
 		Description:  that.Description,

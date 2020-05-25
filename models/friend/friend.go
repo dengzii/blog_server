@@ -11,13 +11,13 @@ type Friend struct {
 	Desc    string `json:"desc"`
 	Url     string `json:"url"`
 	Email   string `json:"emil"`
-	Avatar  string `json:"avtar"`
+	Avatar  string `json:"avatar"`
 	Alt     string `json:"alt"`
 	Display bool   `json:"-"`
 }
 
 func AddFriend(f *Friend) *Friend {
-	f.Display = true
+	f.Display = false
 	db.Insert(f)
 	return f
 }

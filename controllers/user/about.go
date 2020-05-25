@@ -14,9 +14,9 @@ func GetAbout(ctx context.Context) (err error) {
 
 func AddAbout(ctx context.Context) (err error) {
 
-	var about = &user.About{}
-	err = ctx.ReadJSON(about)
-	user.AddAbout(about)
+	var about user.About
+	err = ctx.ReadJSON(&about)
+	user.AddAbout(&about)
 	_, err = ctx.JSON(controllers.SuccessResponse(nil))
 	return nil
 }
