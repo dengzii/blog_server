@@ -9,7 +9,6 @@ import (
 
 type ArticleBase struct {
 	base.CommonModel
-	Id           uint   `json:"id,omitempty"`
 	CID          string `json:"-"`
 	Title        string `json:"title,omitempty"`
 	AuthorId     uint   `json:"-"`
@@ -27,7 +26,7 @@ type Article struct {
 	Comments uint     `json:"comments,omitempty default:0"`
 	Tag      Tag      `json:"tag,omitempty" gorm:"ForeignKey:TagId"`
 	Category Category `json:"category,omitempty" gorm:"ForeignKey:CategoryId"`
-	Content  string   `json:"content,omitempty"`
+	Content  string   `json:"content,omitempty" gorm:"type:TEXT"`
 	Display  bool     `json:"-" gorm:"default:true"`
 }
 
@@ -78,7 +77,6 @@ type Tag struct {
 
 func (that *Article) toArticleBase() (articleBase *ArticleBase) {
 	articleBase = &ArticleBase{
-		Id:           that.ID,
 		Title:        that.Title,
 		AuthorName:   that.AuthorName,
 		Description:  that.Description,

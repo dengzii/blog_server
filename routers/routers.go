@@ -31,7 +31,7 @@ func Setup(app *bootstrap.Bootstrapper) {
 	mainRouter.PartyFunc("/article", articleRouterFunc)
 	mainRouter.PartyFunc("/category", categoryRouterFunc)
 	mainRouter.PartyFunc("/tag", tagRouterFunc)
-	mainRouter.PartyFunc("/user", userRouterFunc)
+	//mainRouter.PartyFunc("/user", userRouterFunc)
 
 	app.WildcardSubdomain(subdomainRouter)
 

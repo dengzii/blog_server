@@ -14,8 +14,8 @@ func Init() {
 
 	var err error
 	dbConf := conf.Get().Db
-	dbUrl := fmt.Sprintf("%s:%s@/%s?charset=%s&parseTime=True&loc=Local",
-		dbConf.Password, dbConf.Username, dbConf.Database, dbConf.Charset)
+	dbUrl := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=%s&parseTime=True&loc=Local",
+		dbConf.Username, dbConf.Password, dbConf.Host, dbConf.Port, dbConf.Database, dbConf.Charset)
 	fmt.Println(dbUrl)
 	Mysql, err = gorm.Open("mysql", dbUrl)
 	if err != nil {
