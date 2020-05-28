@@ -62,6 +62,7 @@ func articleRouterFunc(p router.Party) {
 	p.Get("/{id:uint}", catchErrorRouter(article.GetArticle))
 	p.Put("/", catchErrorRouter(article.AddArticle))
 	p.Get("/", catchErrorRouter(article.GetArticles))
+	p.Post("/", catchErrorRouter(article.ViewArticle))
 }
 
 func tagRouterFunc(p router.Party) {

@@ -28,7 +28,7 @@ func GetAbout() (about *About) {
 	return
 }
 
-func AddAbout(about *About) {
+func AddAbout(about *About) (err error) {
 
 	about.UpdatedAt = time.Now().Unix()
 	db.Insert(&about)

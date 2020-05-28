@@ -3,6 +3,7 @@ package article
 import (
 	"crypto/md5"
 	"encoding/hex"
+	"errors"
 	"github.com/dengzii/blog_server/db"
 	"github.com/jinzhu/gorm"
 	"time"
@@ -57,9 +58,23 @@ func GetArticles(from int64, category string, count int) (articles []*ArticleBas
 
 func GetArticle(id int) *Article {
 	var article Article
-	db.Mysql.Where("id = ?", id).Find(&article).Limit(1)
-	article.Description = ""
+	db.Mysql.Where("id = ?", id).Attrs(nil).FirstOrInit(&article)
+	if len(article.Title) == 0 {
+		return nil
+	}
 	return &article
+}
+
+func ViewArticle(id int) (err error) {
+	var article Article
+	db.Mysql.Where("id = ?", id).First(&article)
+	if len(article.Title) == 0 {
+		err = errors.New("article not found")
+		return
+	}
+	article.Views += 1
+	db.Mysql.Model(&article).Update("views", article.Views)
+	return
 }
 
 func GetArchive() (archive []*Archive) {

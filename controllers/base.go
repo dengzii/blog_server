@@ -18,6 +18,15 @@ func ErrorResponse(status int, msg string, data interface{}) *Json {
 	}
 }
 
+func ErrorEmptyResponse(msg string) *Json {
+
+	return &Json{
+		Status: 1000,
+		Msg:    msg,
+		Data:   nil,
+	}
+}
+
 func SuccessResponse(data interface{}) *Json {
 
 	return &Json{
