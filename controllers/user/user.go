@@ -13,6 +13,17 @@ type loginJson struct {
 	Captcha string `json:"captcha"`
 }
 
+type UserJson struct {
+	Name    string `json:"name"`
+	Passwd  string `json:"passwd"`
+	Email   string `json:"email"`
+	Captcha string `json:"captcha"`
+}
+
+type userIdJson struct {
+	Name string `json:"name"`
+}
+
 func LoginController(ctx context.Context) (err error) {
 
 	var requestUser loginJson
@@ -33,11 +44,16 @@ func LoginController(ctx context.Context) (err error) {
 
 func Register(ctx context.Context) (err error) {
 
-	var user user2.UserJson
+	var user UserJson
 	err = ctx.ReadJSON(&user)
 	if err != nil {
 		return err
 	}
 	_, err = ctx.JSON(user2.AddUser(user.Name, user.Passwd, user.Email))
+	return err
+}
+
+func GetPageInfo(ctx context.Context) (err error) {
+
 	return err
 }

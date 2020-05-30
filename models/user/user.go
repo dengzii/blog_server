@@ -14,11 +14,11 @@ type User struct {
 	PassWd    string
 }
 
-type UserJson struct {
-	Name    string `json:"name"`
-	Passwd  string `json:"passwd"`
-	Email   string `json:"email"`
-	Captcha string `json:"captcha"`
+type PageInfo struct {
+	Name   string `json:"name",gorm:"unique;not null VARCHAR(191)"`
+	Avatar string `json:"avatar"`
+	Email  string `json:"email"`
+	Bio    string `json:"bio"`
 }
 
 func GetUser(name string, passwd string) *User {
