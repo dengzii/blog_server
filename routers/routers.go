@@ -1,15 +1,15 @@
 package routers
 
 import (
+	"fmt"
+	"github.com/dengzii/blog_server/apis/article"
+	"github.com/dengzii/blog_server/apis/common"
+	"github.com/dengzii/blog_server/apis/friend"
+	"github.com/dengzii/blog_server/apis/user"
 	"github.com/dengzii/blog_server/bootstrap"
-	"github.com/dengzii/blog_server/controllers/article"
-	"github.com/dengzii/blog_server/controllers/common"
-	"github.com/dengzii/blog_server/controllers/friend"
-	"github.com/dengzii/blog_server/controllers/user"
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/context"
 	"github.com/kataras/iris/core/router"
-	"log"
 )
 
 func Setup(app *bootstrap.Bootstrapper) {
@@ -18,32 +18,28 @@ func Setup(app *bootstrap.Bootstrapper) {
 
 	mainRouter := app.Party("/{username:string  regexp(^[A-Za-z0-9]{4,12})}")
 
-	mainRouter.Get("/", catchErrorRouter(article.GetArticles))
-	mainRouter.Get("/articles", catchErrorRouter(article.GetArticles))
-	mainRouter.Get("/archive", catchErrorRouter(article.GetArchive))
-
-	mainRouter.Options("/friend", func(i context.Context) {
-
-	})
+	mainRouter.Get("/", catchErrorRouter(article.GetArticlesApi))
+	mainRouter.Get("/articles", catchErrorRouter(article.GetArticlesApi))
+	mainRouter.Get("/archive", catchErrorRouter(article.GetArchiveApi))
+	mainRouter.Get("/profile", catchErrorRouter(user.GetUserInfoApi))
 
 	mainRouter.PartyFunc("/about", aboutRouterFunc)
 	mainRouter.PartyFunc("/friend", friendRouterFunc)
 	mainRouter.PartyFunc("/article", articleRouterFunc)
 	mainRouter.PartyFunc("/category", categoryRouterFunc)
 	mainRouter.PartyFunc("/tag", tagRouterFunc)
-	//mainRouter.PartyFunc("/user", userRouterFunc)
+	mainRouter.PartyFunc("/user", userRouterFunc)
 
 	app.WildcardSubdomain(subdomainRouter)
 
 	errorRouter(app)
-	staticRouter(app)
+	mainRouter.PartyFunc("/static", userStaticRouterFunc)
 }
 
 func userRouterFunc(p router.Party) {
 
-	p.Put("/", catchErrorRouter(user.Register))
-	p.Post("/", catchErrorRouter(user.LoginController))
-	//p.Get("/", catchErrorRouter(user.ProfileController))
+	p.Put("/", catchErrorRouter(user.RegisterApi))
+	p.Post("/", catchErrorRouter(user.LoginApi))
 	//p.Patch("/", catchErrorRouter(user.UpdateController))
 }
 
@@ -53,30 +49,30 @@ func aboutRouterFunc(p router.Party) {
 }
 
 func friendRouterFunc(p router.Party) {
-	p.Get("/", catchErrorRouter(friend.GetFriendsController))
-	p.Put("/", catchErrorRouter(friend.AddFriendsController))
-	p.Patch("/", catchErrorRouter(friend.AddFriendsController))
+	p.Get("/", catchErrorRouter(friend.GetFriendsApi))
+	p.Put("/", catchErrorRouter(friend.AddFriendsApi))
+	p.Patch("/", catchErrorRouter(friend.AddFriendsApi))
 }
 
 func articleRouterFunc(p router.Party) {
-	p.Get("/{id:uint}", catchErrorRouter(article.GetArticle))
-	p.Put("/", catchErrorRouter(article.AddArticle))
-	p.Get("/", catchErrorRouter(article.GetArticles))
-	p.Post("/", catchErrorRouter(article.ViewArticle))
+	p.Get("/{id:uint}", catchErrorRouter(article.GetArticleApi))
+	p.Put("/", catchErrorRouter(article.AddArticleApi))
+	p.Get("/", catchErrorRouter(article.GetArticlesApi))
+	p.Post("/", catchErrorRouter(article.ViewArticleApi))
 }
 
 func tagRouterFunc(p router.Party) {
 
-	p.Put("/", catchErrorRouter(article.AddTagController))
-	p.Get("/", catchErrorRouter(article.GetTagsController))
+	p.Put("/", catchErrorRouter(article.AddTagApi))
+	p.Get("/", catchErrorRouter(article.GetTagsApi))
 	//p.Patch("/", catchErrorRouter(article.UpdateTagsController))
 }
 
 func categoryRouterFunc(p router.Party) {
 
-	p.Get("/", catchErrorRouter(article.GetCategoriesController))
-	p.Put("/", catchErrorRouter(article.AddCategoryController))
-	//p.Patch("/", catchErrorRouter(controllers.PatchCategoriesController))
+	p.Get("/", catchErrorRouter(article.GetCategoriesApi))
+	p.Put("/", catchErrorRouter(article.AddCategoryApi))
+	//p.Patch("/", catchErrorRouter(apis.PatchCategoriesController))
 }
 
 func catchErrorView(view string, dataKey string, dataValue interface{}) func(context.Context) {
@@ -102,20 +98,22 @@ func catchErrorRouter(router func(context.Context) error) func(context.Context) 
 }
 
 func subdomainRouter(ctx context.Context) {
-	//ctx.Application().Logger().Info("=> " + ctx.Subdomain())
+
 }
 
 func errorRouter(app *bootstrap.Bootstrapper) {
-	app.OnErrorCode(iris.StatusInternalServerError, common.ServerErrorController)
-	app.OnErrorCode(iris.StatusNotFound, common.NotFoundController)
-
+	app.OnErrorCode(iris.StatusInternalServerError, common.ReturnServerError)
+	app.OnErrorCode(iris.StatusNotFound, common.ReturnNotFound)
 }
 
-func staticRouter(app *bootstrap.Bootstrapper) {
-	app.Get("/static/{f:string}", func(context context.Context) {
-		err := context.ServeFile("./static/a.png", false)
+func userStaticRouterFunc(p router.Party) {
+	p.Get("/{file:string}", func(context context.Context) {
+		f := context.URLParam("file")
+		u := context.URLParam("username")
+		path := fmt.Sprintf("./static/%s/%s", u, f)
+		err := context.ServeFile(path, false)
 		if err != nil {
-			log.Fatal(err)
+			common.ReturnNotFound(context)
 		}
 	})
 }

@@ -15,7 +15,7 @@ var debugMode bool
 
 const (
 	StaticAssets = "./statics/"
-	Favicon      = "favicon.png"
+	Favicon      = "dengzi/favicon.png"
 	Views        = "./views"
 	ViewEx       = ".html"
 )
